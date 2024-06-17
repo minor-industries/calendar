@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-//go:embed *.html
+//go:embed *.html static/purecss/*.css
 var fs embed.FS
 
 func run() error {
@@ -17,8 +17,16 @@ func run() error {
 		c.FileFromFS("/calendar.html", http.FS(fs))
 	})
 
+	r.GET("/favicon.ico", func(c *gin.Context) {
+		c.Status(204)
+	})
+
 	r.GET("/calendar/*file", func(c *gin.Context) {
 		c.FileFromFS(c.Param("file"), http.FS(frontend.FS))
+	})
+
+	r.GET("/static/*file", func(c *gin.Context) {
+		c.FileFromFS("/static/"+c.Param("file"), http.FS(fs))
 	})
 
 	return r.Run(":8000")
