@@ -1,14 +1,29 @@
 package main
 
 import (
+	"context"
 	"embed"
 	"github.com/gin-gonic/gin"
 	"github.com/minor-industries/calendar/frontend"
+	"github.com/minor-industries/calendar/gen/go/calendar"
 	"net/http"
 )
 
 //go:embed *.html static/purecss/*.css
 var fs embed.FS
+
+type handler struct{}
+
+func (h handler) GetEvents(ctx context.Context, req *calendar.CalendarEventReq) (*calendar.CalendarEventResp, error) {
+	return &calendar.CalendarEventResp{ResultSets: []*calendar.CalendarResultSet{
+		{
+			Color: "blue",
+			Date:  "2024-01-01",
+			Query: "abc123",
+			Count: 1,
+		},
+	}}, nil
+}
 
 func run() error {
 	r := gin.Default()
@@ -28,6 +43,11 @@ func run() error {
 	r.GET("/static/*file", func(c *gin.Context) {
 		c.FileFromFS("/static/"+c.Param("file"), http.FS(fs))
 	})
+
+	r.POST(
+		"/twirp/calendar.Calendar/*Method",
+		gin.WrapH(calendar.NewCalendarServer(&handler{}, nil)),
+	)
 
 	return r.Run(":8000")
 }

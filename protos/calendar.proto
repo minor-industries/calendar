@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option go_package = "gen/go/calendar";
+
+package calendar;
+
+message CalendarResultSet {
+  string color = 1;
+  string date = 2;
+  string query = 3;
+  int32 count = 4;
+}
+
+message CalendarEventReq {
+  string view = 1;
+}
+
+message CalendarEventResp {
+  repeated CalendarResultSet result_sets = 1;
+}
+
+service Calendar {
+  rpc GetEvents(CalendarEventReq) returns (CalendarEventResp);
+}
