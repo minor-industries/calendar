@@ -103,7 +103,15 @@ export function renderYear(Handlebars: any, year: number) {
     return doc.body.firstChild;
 }
 
-export function addEvent(s: ResultSet) {
+interface ClickEvent {
+    date: string
+    query: string
+}
+
+export function addEvent(
+    s: ResultSet,
+    onClick: (event: ClickEvent) => void
+) {
     const td = document.getElementById(s.date);
     if (td === null) {
         return // TODO:
@@ -117,26 +125,37 @@ export function addEvent(s: ResultSet) {
             style="background-color: ${s.color};" 
             data-date="${s.date}" 
             data-query="${s.query}"
-        >${s.count  }</div>`
+        >${s.count}</div>`
 
     const parser = new DOMParser();
     const doc = parser.parseFromString(content, 'text/html');
 
     const div = doc.body.firstChild as HTMLDivElement;
     div.addEventListener('click', () => {
-        const url = new URL(window.location.href);
-        const params = new URLSearchParams(url.search);
-        const view = params.get('view') ?? "default";
-
-        const paramViewer = params.get('viewer');
-        const viewer = paramViewer && paramViewer.trim() ? paramViewer : "fullscreen";
-
         const date = div.getAttribute("data-date")!;
         const query = div.getAttribute("data-query")!;
 
-        // href="%s.html?view=%s&query=%s&date=%s"
-        window.location.href = `/${viewer}.html?view=${view}&query=${query}&date=${date}`
+        onClick({
+            date: date,
+            query: query,
+        });
     })
 
     td.appendChild(doc.body.firstChild as ChildNode);
+}
+
+export function clickHandler(event: ClickEvent) {
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+    const view = params.get('view') ?? "default";
+    const paramViewer = params.get('viewer');
+    const viewer = paramViewer && paramViewer.trim() ? paramViewer : "fullscreen";
+
+    const queryString = (new URLSearchParams({
+        date: event.date,
+        query: event.query,
+        view: view,
+    }).toString())
+
+    window.location.href = `/${viewer}.html?${queryString}`;
 }

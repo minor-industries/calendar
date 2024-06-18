@@ -11,6 +11,14 @@
         import {addEvent, renderYear} from "/calendar/calendar.js";
         import {GetEvents} from "/calendar/api.js";
 
+        function clickHandler(event) {
+            const queryString = (new URLSearchParams({
+                date: event.date,
+                query: event.query,
+            }).toString());
+            window.location.href = `/data-bike.html?${queryString}`;
+        }
+
         document.addEventListener("DOMContentLoaded", async () => {
             const year = renderYear(Handlebars, 2024);
             document.body.appendChild(year);
@@ -21,7 +29,7 @@
             console.log(resp);
 
             resp.result_sets.forEach(s => {
-                addEvent(s);
+                addEvent(s, clickHandler);
             })
 
         });
