@@ -28,6 +28,10 @@ func (h handler) GetEvents(ctx context.Context, req *calendar.CalendarEventReq) 
 func run() error {
 	r := gin.Default()
 
+	r.GET("/", func(c *gin.Context) {
+		c.Redirect(http.StatusTemporaryRedirect, "index.html")
+	})
+
 	r.GET("/index.html", func(c *gin.Context) {
 		c.FileFromFS("/calendar.html", http.FS(fs))
 	})
