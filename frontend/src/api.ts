@@ -27,18 +27,18 @@ function rpc(
 
 const calendar = "calendar.Calendar";
 
-type CalendarEventReq = {
+export type CalendarEventReq = {
     view: string
 };
 
-type CalendarResultSet = {
+export type CalendarResultSet = {
     color: string
     date: string
     query: string
     count: number
 };
 
-type CalendarEventResp = {
+export type CalendarEventResp = {
     result_sets: CalendarResultSet[]
 };
 
