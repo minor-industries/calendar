@@ -1,3 +1,4 @@
+import Handlebars from "handlebars";
 import {dayTemplate, monthTemplate, yearTemplate} from "./templates.js";
 
 type ResultSet = {
@@ -83,7 +84,7 @@ export function handleMonth(t: Date): MonthData {
     return m;
 }
 
-export function renderYear(Handlebars: any, year: number) {
+export function renderYear(year: number) {
     Handlebars.registerPartial("day", dayTemplate);
     Handlebars.registerPartial("month", monthTemplate);
     const template = Handlebars.compile(yearTemplate);
@@ -104,8 +105,8 @@ export function renderYear(Handlebars: any, year: number) {
 }
 
 interface ClickEvent {
-    date: string
-    query: string
+    date: string;
+    query: string;
 }
 
 export function addEvent(
