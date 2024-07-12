@@ -6,12 +6,20 @@
       "DOM",
       "ES2020"
     ],
-    "outDir": ".",
-    "rootDir": ".",
+    "outDir": "dist",
+    "rootDir": "src",
     "strict": true,
+    "declaration": true,
+    "sourceMap": true,
+    "declarationMap": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true
   },
   "include": [
-    "*.ts"
+    "src/**/*.ts"
   ],
-  "exclude": []
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
