@@ -6,10 +6,9 @@
     <link href="/static/purecss/base-min.css" rel="stylesheet" type="text/css">
     <link href="/static/purecss/pure-min.css" rel="stylesheet" type="text/css">
     <link href="/static/purecss/grids-responsive-min.css" rel="stylesheet" type="text/css">
-    <script src="/calendar/handlebars.js"></script>
+
     <script type="module">
-        import {addEvent, renderYear} from "/calendar/calendar.js";
-        import {GetEvents} from "/calendar/api.js";
+        import {addEvent, GetEvents, renderYear} from "/calendar/dist/bundle.js";
 
         function clickHandler(event) {
             const queryString = (new URLSearchParams({
@@ -20,7 +19,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", async () => {
-            const year = renderYear(Handlebars, 2024);
+            const year = renderYear(2024);
             document.body.appendChild(year);
 
             const resp = await GetEvents({
