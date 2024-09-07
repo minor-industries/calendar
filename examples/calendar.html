@@ -8,7 +8,9 @@
     <link href="/static/purecss/grids-responsive-min.css" rel="stylesheet" type="text/css">
 
     <script type="module">
-        import {addEvent, GetEvents, renderYear} from "/calendar/dist/bundle.js";
+        import {addEvent, DefaultApiClient, renderYear} from "/calendar/dist/bundle.js";
+
+        const client = new DefaultApiClient();
 
         function clickHandler(event) {
             const queryString = (new URLSearchParams({
@@ -22,7 +24,7 @@
             const year = renderYear(2024);
             document.body.appendChild(year);
 
-            const resp = await GetEvents({
+            const resp = await client.getEvents({
                 view: "default" //TODO
             });
             console.log(resp);

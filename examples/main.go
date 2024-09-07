@@ -4,7 +4,7 @@ import (
 	"context"
 	"embed"
 	"github.com/gin-gonic/gin"
-	"github.com/minor-industries/calendar/frontend"
+	"github.com/minor-industries/calendar"
 	"github.com/minor-industries/calendar/gen/go/calendar"
 	"net/http"
 )
